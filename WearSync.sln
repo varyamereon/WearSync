@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WearSync.Watch", "WearSync.Watch\WearSync.Watch\WearSync.Watch.csproj", "{0838AEED-1C91-466E-843E-A21E64CFB8CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WearSync.Companion", "WearSync.Companion\WearSync.Companion.csproj", "{3BC0AC7E-3B3B-4D3F-9CC0-B2BDECC460A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WearSync.Shared", "WearSync.Shared\WearSync.Shared.csproj", "{88A09F04-E35B-455B-B6E1-DDF37FB4F059}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +21,16 @@ Global
 		{0838AEED-1C91-466E-843E-A21E64CFB8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0838AEED-1C91-466E-843E-A21E64CFB8CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0838AEED-1C91-466E-843E-A21E64CFB8CC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{3BC0AC7E-3B3B-4D3F-9CC0-B2BDECC460A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BC0AC7E-3B3B-4D3F-9CC0-B2BDECC460A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BC0AC7E-3B3B-4D3F-9CC0-B2BDECC460A6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3BC0AC7E-3B3B-4D3F-9CC0-B2BDECC460A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BC0AC7E-3B3B-4D3F-9CC0-B2BDECC460A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BC0AC7E-3B3B-4D3F-9CC0-B2BDECC460A6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{88A09F04-E35B-455B-B6E1-DDF37FB4F059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88A09F04-E35B-455B-B6E1-DDF37FB4F059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88A09F04-E35B-455B-B6E1-DDF37FB4F059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88A09F04-E35B-455B-B6E1-DDF37FB4F059}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

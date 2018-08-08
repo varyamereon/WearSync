@@ -7,14 +7,17 @@
     android:padding="@dimen/box_inset_layout_padding"
     tools:deviceIds="wear">
     <FrameLayout
+        android:id="@+id/clickableFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/inner_frame_layout_padding"
-        app:boxedEdges="all">
+        app:boxedEdges="all"
+        android:background="@color/accent_purple">
         <TextView
-            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
+            android:text="@string/title_cycle"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white" />
     </FrameLayout>
 </android.support.wear.widget.BoxInsetLayout>

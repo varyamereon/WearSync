@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  
+  <!--Accent colors for the watch face background.-->
+  <color name="accent_red">#f44336</color>
+  <color name="accent_orange">#ff9800</color>
+  <color name="accent_yellow">#ffeb3b</color>
+  <color name="accent_green">#4caf50</color>
+  <color name="accent_blue">#2196f3</color>
+  <color name="accent_purple">#9c27b0</color>
+  
+</resources>

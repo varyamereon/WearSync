@@ -80,17 +80,26 @@
     <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values-round\strings.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Android.Support.Wear" Version="27.*" />
-    <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="27.*" />
-    <PackageReference Include="Xamarin.Android.Support.Fragment" Version="27.*" />
-    <PackageReference Include="Xamarin.Android.Support.Media.Compat" Version="27.*" />
+    <PackageReference Include="Chronoir_net.Chronica.WatchfaceExtension">
+      <Version>1.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.Wear" Version="27.0.2.1" />
+    <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="27.0.2.1" />
+    <PackageReference Include="Xamarin.Android.Support.Fragment" Version="27.0.2.1" />
+    <PackageReference Include="Xamarin.Android.Support.Media.Compat" Version="27.0.2.1" />
     <PackageReference Include="Xamarin.Android.Wear" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WearSync.Shared\WearSync.Shared.csproj">
+      <Project>{88a09f04-e35b-455b-b6e1-ddf37fb4f059}</Project>
+      <Name>WearSync.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

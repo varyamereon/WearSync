@@ -1,33 +1,53 @@
-﻿using System;
-
-using Android.App;
-using Android.Content;
-using Android.Runtime;
-using Android.Views;
+﻿using Android.App;
 using Android.Widget;
 using Android.OS;
-using Android.Support.Wearable.Views;
-using Android.Support.V4.App;
-using Android.Support.V4.View;
 using Android.Support.Wearable.Activity;
-using Java.Interop;
-using Android.Views.Animations;
+using static Android.Views.View;
+using Android.Views;
+using Chronoir_net.Chronica.WatchfaceExtension;
+using WearSync.Shared;
+using Android.Graphics;
 
 namespace WearSync.Watch
 {
     [Activity(Label = "@string/app_name", MainLauncher = true)]
-    public class MainActivity : WearableActivity
+    public class MainActivity : WearableActivity, IOnClickListener
     {
-        private TextView _textView;
+        private FrameLayout clickableFrameLayout;
+
+        private AccentColor currentAccentColor = AccentColor.Red;
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.activity_main);
 
-            _textView = FindViewById<TextView>(Resource.Id.text);
+            clickableFrameLayout = FindViewById<FrameLayout>(Resource.Id.clickableFrameLayout);
+
+            clickableFrameLayout.SetBackgroundColor(GetColor(currentAccentColor));
+            clickableFrameLayout.SetOnClickListener(this);
+
             SetAmbientEnabled();
         }
+
+        public void OnClick(View view)
+        {
+            if (view.Equals(clickableFrameLayout))
+            {
+                currentAccentColor = AccentColors.GetNextColor(currentAccentColor);
+                clickableFrameLayout.SetBackgroundColor(GetColor(currentAccentColor));
+            }
+        }
+
+        #region Helper
+
+        private int GetColorResource(string resource) => Resources.GetIdentifier(resource, "color", PackageName);
+
+        private int GetColorResource(AccentColor accentColor) => GetColorResource(AccentColors.GetResource(accentColor));
+
+        private Color GetColor(AccentColor accentColor) => WatchfaceUtility.ConvertARGBToColor(GetColor(GetColorResource(accentColor)));
+
+        #endregion
     }
 }
 
