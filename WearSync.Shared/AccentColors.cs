@@ -30,7 +30,7 @@ namespace WearSync.Shared
 
         #region Public Methods
 
-        public static AccentColor? GetIdFromResource(string resource) => AccentColorsList.FirstOrDefault(x => x.Resource == resource)?.Id;
+        public static AccentColor GetIdFromResource(string resource) => AccentColorsList.FirstOrDefault(x => x.Resource == resource).Id;
 
         public static string GetResource(AccentColor color) => AccentColorsList.FirstOrDefault(x => x.Id == color)?.Resource;
 

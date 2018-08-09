@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
+    <Compile Include="PrefSyncService.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -91,6 +92,9 @@
     <PackageReference Include="Xamarin.Android.Support.Fragment" Version="27.0.2.1" />
     <PackageReference Include="Xamarin.Android.Support.Media.Compat" Version="27.0.2.1" />
     <PackageReference Include="Xamarin.Android.Wear" Version="2.2.0" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Wearable">
+      <Version>60.1142.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WearSync.Shared\WearSync.Shared.csproj">
