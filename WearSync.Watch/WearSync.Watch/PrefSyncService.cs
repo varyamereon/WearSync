@@ -7,6 +7,7 @@ using Android.Gms.Common.Apis;
 using Android.Gms.Wearable;
 using Android.OS;
 using Android.Preferences;
+using Android.Runtime;
 using Android.Util;
 
 namespace WearSync.Watch
@@ -16,8 +17,8 @@ namespace WearSync.Watch
     /// personal-area network (PAN). More details (including instructions) at
     /// https://github.com/StringMon/prefsyncservice.
     /// </summary>
-    [Service(Enabled =true, Exported =true)]
-    [IntentFilter(new[] { DataApi.ActionDataChanged }, DataScheme ="wear", DataHost ="*",DataPathPrefix ="/PrefSyncService/data/settings")]
+    [Service(Enabled = true, Exported = true)]
+    [IntentFilter(new[] { DataApi.ActionDataChanged }, DataScheme = "wear", DataHost = "*", DataPathPrefix = "/PrefSyncService/data/settings")]
     public class PrefSyncService : WearableListenerService
     {
         #region Fields
@@ -118,7 +119,7 @@ namespace WearSync.Watch
                     if (nodeId.Equals(localNodeId))
                     {
                         // Change originated on this device.
-                        continue;
+                        //continue;
                     }
 
                     if (uri.Path.StartsWith(DATA_SETTINGS_PATH))
@@ -162,7 +163,8 @@ namespace WearSync.Watch
             {
                 foreach (var key in dataMap.KeySet())
                 {
-                    var value = (object)dataMap.Get(key);
+                    var value = dataMap.Get(key);
+                    var bob = value.GetType();
                     if (value == null)
                     {
                         if (allPrefs != null && value.Equals(allPrefs.ContainsKey(key)))
@@ -177,38 +179,36 @@ namespace WearSync.Watch
                     if (key.Equals(KEY_TIMESTAMP))
                         continue;
 
-                    if (value is bool)
+                    if (value is Java.Lang.Boolean)
                     {
                         editor.PutBoolean(key, (bool)value);
                     }
-                    else if (value is float)
+                    else if (value is Java.Lang.Float)
                     {
                         editor.PutFloat(key, (float)value);
                     }
-                    else if (value is int)
+                    else if (value is Java.Lang.Integer)
                     {
                         editor.PutInt(key, (int)value);
                     }
-                    else if (value is long)
+                    else if (value is Java.Lang.Long)
                     {
                         editor.PutLong(key, (long)value);
                     }
-                    else if (value is string)
+                    else if (value is Java.Lang.String)
                     {
                         editor.PutString(key, (string)value);
                     }
-                    else if (value is string[])
+                    else if (value is Java.Lang.Object javaValue && javaValue.Class.SimpleName=="String[]")
                     {
                         if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
                         {
-                            var strings = new HashSet<string>();
-                            strings.UnionWith((string[])value);
-                            editor.PutStringSet(key, strings);
+                            editor.PutStringSet(key, (string[])value);
                         }
                     }
                     else
                     {
-                        // May occur if I messed up string[].#
+                        // Invalid cast
                     }
                 }
             }
@@ -359,6 +359,7 @@ namespace WearSync.Watch
                 lock (prefHandler)
                 {
                     allPrefs.TryGetValue(key, out var value);
+
                     prefHandler.dataQueue[key] = value;
 
                     // Wait a moment so that settings updates are batched.
@@ -468,7 +469,7 @@ namespace WearSync.Watch
                             {
                                 if (!(dataItems.Get(i) is IDataItem))
                                 {
-                                    // Something went wrong again.
+                                    // Invalid cast
                                 }
 
                                 Log.Debug(nameof(PrefSyncService), $"Resync {nameof(OnResult)}: {dataItems.Get(i) as IDataItem}");
@@ -485,7 +486,7 @@ namespace WearSync.Watch
                 }
                 else
                 {
-                    // Seems to be a problem casting.
+                    //Invalid cast
                 }
             }
 
@@ -562,10 +563,16 @@ namespace WearSync.Watch
                             {
                                 dataMap.PutString(key, (string)value);
                             }
-                            else if (value is IEnumerable<string>)
+                            else if (value is JavaCollection collection)
                             {
-                                // Not sure what to do with this one.
-                                dataMap.PutStringArray(key, ((List<string>)value).ToArray());
+                                var stringArray = new string[collection.Count];
+                                ((JavaCollection)value).CopyTo(stringArray, 0);
+
+                                dataMap.PutStringArray(key, stringArray);
+                            }
+                            else
+                            {
+                                // Invalid cast
                             }
                         }
                         dataQueue.Clear();

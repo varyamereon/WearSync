@@ -10,6 +10,8 @@ using Android.Graphics;
 using static WearSync.Watch.PrefSyncService;
 using Android.Content;
 using Android.Preferences;
+using System.Collections.Generic;
+using System;
 
 namespace WearSync.Watch
 {
@@ -67,7 +69,14 @@ namespace WearSync.Watch
         {
             if (view.Equals(clickableFrameLayout))
             {
-                editor.PutString(ACCENT_COLOR_KEY, AccentColors.GetResource(AccentColors.GetNextColor(currentAccentColor))).Commit();
+                editor.PutString(ACCENT_COLOR_KEY, AccentColors.GetResource(AccentColors.GetNextColor(currentAccentColor)));
+                editor.PutStringSet("TEST_KEY_3", new List<string>()
+                {
+                    DateTime.UtcNow.Ticks.ToString(),
+                    DateTime.Now.Ticks.ToString()
+                });
+
+                editor.Commit();
             }
         }
 
