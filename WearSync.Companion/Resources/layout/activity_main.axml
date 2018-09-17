@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/colorlayout_margin">
+        <FrameLayout
+            android:id="@+id/colorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:layout_gravity="center_horizontal"
+            android:elevation="@dimen/colorlayout_elevation" />
+    </android.support.constraint.ConstraintLayout>
+    <Spinner
+        android:id="@+id/colorSpinner"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/spinner_margin"
+        android:spinnerMode="dialog"
+        android:prompt="@string/color_prompt" />
+</LinearLayout>

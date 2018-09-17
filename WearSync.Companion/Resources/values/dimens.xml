@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <dimen name="spinner_padding">12dp</dimen>
+  <dimen name="spinner_margin">16dp</dimen>
+  <dimen name="colorlayout_margin">80dp</dimen>
+  <dimen name="colorlayout_elevation">10dp</dimen>
+</resources>

@@ -11,7 +11,7 @@ using Android.Preferences;
 using Android.Runtime;
 using Android.Util;
 
-namespace WearSync.Watch
+namespace WearSync.Companion
 {
     /// <summary>
     /// A generic class for synchronizing <see cref="ISharedPreferences"/> between devices on a Wear OS
@@ -90,7 +90,7 @@ namespace WearSync.Watch
         /// Wear Data API and saving them to the local <see cref="ISharedPreferences"/>.
         /// </summary>
         /// <param name="dataEvents">The data incoming from the Data API.</param>
-        public override async void OnDataChanged(DataEventBuffer dataEvents) => await OnDataChangedAsync(dataEvents);
+        public async override void OnDataChanged(DataEventBuffer dataEvents) => await OnDataChangedAsync(dataEvents);
         private async Task OnDataChangedAsync(DataEventBuffer dataEvents)
         {
             if (localNodeId == null)
@@ -152,7 +152,7 @@ namespace WearSync.Watch
         {
             DataMap dataMap = DataMapItem.FromDataItem(dataItem).DataMap;
 
-            if (dataMap.KeySet().Count == 0 && dataItem.Uri.PathSegments.LastOrDefault() != PrefListener.KEY_SYNC_DONE)
+            if (dataMap.KeySet().Count == 0 && dataItem.Uri.PathSegments.LastOrDefault()!=PrefListener.KEY_SYNC_DONE)
             {
                 // Testing has shown that when an item is deleted from the Data API, it
                 // will often come through as an empty TYPE_CHANGED rather than a TYPE_DELETED.
@@ -198,7 +198,7 @@ namespace WearSync.Watch
                     {
                         editor.PutString(key, (string)value);
                     }
-                    else if (value is Java.Lang.Object javaValue && javaValue.Class.SimpleName == "String[]")
+                    else if (value is Java.Lang.Object javaValue && javaValue.Class.SimpleName=="String[]")
                     {
                         if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb)
                         {
@@ -436,7 +436,7 @@ namespace WearSync.Watch
                     if (msg.What == ACTION_SYNC_ALL)
                     {
                         DataItemBuffer dataItems = await WearableClass.DataApi.GetDataItemsAsync(googleApiClient, DATA_SETTINGS_URI, DataApi.FilterPrefix).ConfigureAwait(false);
-
+                        
                         ISharedPreferencesEditor editor = string.IsNullOrEmpty(sharedPrefsName) ?
                             PreferenceManager.GetDefaultSharedPreferences(appContext).Edit() :
                             appContext.GetSharedPreferences(sharedPrefsName, FileCreationMode.Private).Edit();

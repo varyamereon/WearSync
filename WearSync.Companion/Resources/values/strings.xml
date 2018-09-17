@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WearSync</string>
+
+  <string name="color_prompt">Choose a color for the watch</string>
+</resources>

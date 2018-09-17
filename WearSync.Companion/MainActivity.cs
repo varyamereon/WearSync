@@ -1,22 +1,19 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
-using Android.Support.Wearable.Activity;
-using static Android.Views.View;
-using Android.Views;
-using Chronoir_net.Chronica.WatchfaceExtension;
+using Android.Support.V7.App;
 using WearSync.Shared;
+using Android.Content.Res;
 using Android.Graphics;
-using static WearSync.Watch.PrefSyncService;
 using Android.Content;
+using static WearSync.Companion.PrefSyncService;
 using Android.Preferences;
-using System.Collections.Generic;
-using System;
+using Chronoir_net.Chronica.WatchfaceExtension;
 
-namespace WearSync.Watch
+namespace WearSync.Companion
 {
-    [Activity(Label = "@string/app_name", MainLauncher = true)]
-    public class MainActivity : WearableActivity, IOnClickListener, ISharedPreferencesOnSharedPreferenceChangeListener
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    public class MainActivity : AppCompatActivity, ISharedPreferencesOnSharedPreferenceChangeListener
     {
         private PrefListener prefListener;
         private ISharedPreferences settings;
@@ -25,13 +22,17 @@ namespace WearSync.Watch
         private const string ACCENT_COLOR_KEY = "accent_color";
         private const string ACCENT_COLOR_DEFAULT = nameof(Resource.Color.accent_red);
 
-        private FrameLayout clickableFrameLayout;
+        private Spinner colorSpinner;
+        private FrameLayout colorLayout;
 
         private AccentColor currentAccentColor;
 
-        protected override void OnCreate(Bundle bundle)
+        private bool ignoreSelection = false;
+
+        protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(bundle);
+            base.OnCreate(savedInstanceState);
+
             SetContentView(Resource.Layout.activity_main);
 
             settings = PreferenceManager.GetDefaultSharedPreferences(this);
@@ -39,14 +40,16 @@ namespace WearSync.Watch
             //editor.Clear().Commit();
             prefListener = new PrefListener(this);
 
-            clickableFrameLayout = FindViewById<FrameLayout>(Resource.Id.clickableFrameLayout);
+            colorSpinner = FindViewById<Spinner>(Resource.Id.colorSpinner);
+            colorLayout = FindViewById<FrameLayout>(Resource.Id.colorLayout);
 
             currentAccentColor = AccentColors.GetIdFromResource(settings.GetString(ACCENT_COLOR_KEY, ACCENT_COLOR_DEFAULT));
 
-            clickableFrameLayout.SetBackgroundColor(GetColor(currentAccentColor));
-            clickableFrameLayout.SetOnClickListener(this);
+            AccentColor[] colors = AccentColors.GetAccentColors().ToArray();
+            colorSpinner.Adapter = new ArrayAdapter<AccentColor>(this, Resource.Layout.colorspinner_item, colors);
 
-            SetAmbientEnabled();
+            colorLayout.SetBackgroundColor(GetColor(currentAccentColor));
+            colorSpinner.ItemSelected += ColorSpinner_ItemSelected;
         }
 
         protected override void OnResume()
@@ -65,12 +68,20 @@ namespace WearSync.Watch
             prefListener.OnPause();
         }
 
-        public void OnClick(View view)
+        private void ColorSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            if (view.Equals(clickableFrameLayout))
+            AccentColor selectedColor = AccentColors.GetAccentColors()[e.Position];
+
+            if (selectedColor != currentAccentColor && !ignoreSelection)
             {
-                editor.PutString(ACCENT_COLOR_KEY, AccentColors.GetResource(AccentColors.GetNextColor(currentAccentColor))).Commit();
+                currentAccentColor = selectedColor;
+
+                colorLayout.SetBackgroundColor(GetColor(currentAccentColor));
+
+                editor.PutString(ACCENT_COLOR_KEY, AccentColors.GetResource(currentAccentColor)).Commit();
             }
+
+            ignoreSelection = false;
         }
 
         public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
@@ -84,7 +95,9 @@ namespace WearSync.Watch
                     {
                         currentAccentColor = newColor;
 
-                        clickableFrameLayout.SetBackgroundColor(GetColor(currentAccentColor));
+                        colorLayout.SetBackgroundColor(GetColor(currentAccentColor));
+                        ignoreSelection = true;
+                        colorSpinner.SetSelection(AccentColors.GetAccentColors().IndexOf(currentAccentColor));
                     }
 
                     break;
@@ -102,5 +115,4 @@ namespace WearSync.Watch
         #endregion
     }
 }
-
 
